@@ -1,7 +1,7 @@
 const searchInput = document.querySelector('#search-input');
 
 // Listens for the key presses i.e. text the user is typing
-searchInput.addEventListener('keyup',(e) => {
+searchInput.addEventListener('keydown',(e) => {
   // Extracts the value of the key being pressed
 
   var searchValue = e.target.value;
