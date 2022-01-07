@@ -41,6 +41,7 @@ body
   position: absolute;
   top: 280px;
   left: 270px;
+  display: none;
 }
 
 #clear-icon:hover
