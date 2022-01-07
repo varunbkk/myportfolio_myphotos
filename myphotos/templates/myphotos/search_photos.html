@@ -1,0 +1,46 @@
+{% load static %}
+<div class="row">
+  {% for photo in photos %}
+  <div class="col-md-4">
+    <div class="card m-2">
+
+      <img alt="{{photo.description}}" data-slug="{{photo.slug}}" class="image-thumbnail" src={{photo.image.url}}>
+
+      <div class="card-body">
+        <div id="card-text" class="col-sm-12">
+          {% for tag in photo.tags.all %}
+          {% if tag.name == "beer" %}
+          <span class="badge bg-success">#{{tag}}</span>
+          {% elif tag.name == "snow" %}
+          <span class="badge bg-secondary">#{{tag}}</span>
+          {% elif tag.name == "ice-cream" %}
+          <span class="badge bg-secondary">#{{tag}}</span>
+          {% elif tag.name == "night" %}
+          <span class="badge bg-dark">#{{tag}}</span>
+          {% elif tag.name == "food" %}
+          <span class="badge bg-danger">#{{tag}}</span>
+          {% elif tag.name == "graffiti" %}
+          <span class="badge bg-warning text-dark">#{{tag}}</span>
+          {% elif tag.name == "blue-skies" %}
+          <span class="badge bg-info text-dark">#{{tag}}</span>
+          {% else %}
+          <span class="badge bg-primary">#{{tag}}</span>
+          {% endif %}
+          {% endfor %}
+
+          {% if photo.category.id == 1 %}
+          <img  id="category-icons" src="{% static 'images/beer_icon.svg' %}" alt="">
+          {% elif photo.category.id == 2 %}
+          <img id="category-icons" src="{% static 'images/food_icon.svg' %}" alt="">
+          {% else %}
+          <img id="category-icons" src="{% static 'images/travel_icon.svg' %}" alt="">
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script type="text/javascript" src="{% static 'js/modal_photo_ajax.js' %}"></script>

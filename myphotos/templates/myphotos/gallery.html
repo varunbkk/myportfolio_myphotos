@@ -1,0 +1,131 @@
+{% extends 'myphotos/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row m-2">
+  <!-- Category filter and photo search bar that takes up 3 cols -->
+  <div class="col-md-3  my-2">
+    <div class="card" style="width: 15rem;">
+      <div class="card-header">
+        Filter &nbsp;
+        <button id="deselect-button" type="button" class="btn btn-secondary btn-sm" name="button" disabled>Deselect All</button>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for category in categories %}
+        <li class="list-group-item">
+          <input id="filter-check" type="checkbox" class="filter-checkbox" data-filter="category" value="{{category.name}}">&nbsp;
+        <small>{{category.name}}</small>
+        </li>
+        {% endfor %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'add' %}" class="btn btn-primary btn-sm m-1">Add Photo</a>
+        {% else %}
+        <a href="{% url 'add' %}" class="btn btn-primary btn-sm m-1"hidden>Add Photo</a>
+        {% endif %}
+
+      </ul>
+    </div>
+
+    <div id="search-input" class="form-group my-4" style="width:15rem;">
+      <input id="search-box" type="text" class="form-control" placeholder="search by tag keywords"disabled>
+      <img id="clear-icon" src="{% static 'images/clr_icon.svg' %}" alt="">
+    </div>
+  </div>
+  <!-- Photo gallery area that takes up 9 cols -->
+  <div id="original-output" class="col-md-9">
+    <div class="row">
+
+      {% for photo in photos %}
+      <!-- Each thumbnail image (within the gallery) takes up 4 cols for a total of 3 thumbnails per each row -->
+      <div class="col-md-4">
+        <div class="card m-2">
+          <img alt="{{photo.description}}" data-slug="{{photo.slug}}" class="image-thumbnail" src={{photo.image.url}}>
+          <div class="card-body">
+            <div id="card-text" class="col-sm-12">
+              {% for tag in photo.tags.all %}
+              {% if tag.name == "beer" %}
+              <span class="badge bg-success">#{{tag}}</span>
+              {% elif tag.name == "snow" %}
+              <span class="badge bg-secondary">#{{tag}}</span>
+              {% elif tag.name == "ice-cream" %}
+              <span class="badge bg-secondary">#{{tag}}</span>
+              {% elif tag.name == "night" %}
+              <span class="badge bg-dark">#{{tag}}</span>
+              {% elif tag.name == "food" %}
+              <span class="badge bg-danger">#{{tag}}</span>
+              {% elif tag.name == "graffiti" %}
+              <span class="badge bg-warning text-dark">#{{tag}}</span>
+              {% elif tag.name == "blue-skies" %}
+              <span class="badge bg-info text-dark">#{{tag}}</span>
+              {% else %}
+              <span class="badge bg-primary">#{{tag}}</span>
+              {% endif %}
+              {% endfor %}
+
+              {% if photo.category.id == 1 %}
+              <img  id="category-icons" src="{% static 'images/beer_icon.svg' %}" alt="">
+              {% elif photo.category.id == 2 %}
+              <img id="category-icons" src="{% static 'images/food_icon.svg' %}" alt="">
+              {% else %}
+              <img id="category-icons" src="{% static 'images/travel_icon.svg' %}" alt="">
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <div id="filter-result" class="col-md-9">
+  </div>
+
+  <div id="search-result" class="col-md-9">
+  </div>
+  <!-- The modal for the original output, into which we inject the selected image -->
+  <div id="original-Modal" class="modal">
+    <span class="close">&times;</span>
+    <img id="modal-image" class="modal-content">
+
+    <div id="caption">
+    </div>
+
+  </div>
+
+  <!-- The modal for the Ajax callback output -->
+  <div id="ajax-Modal" class="modal">
+    <span class="ajax-close">&times;</span>
+    <img id="ajax-modal-image" class="ajax-modal-content">
+
+    <div id="ajax-caption">
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript" src="{% static 'js/deselect.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/photo_search.js' %}"></script>
+<script type="text/javascript">
+  var clrIcon = document.getElementById('clear-icon');
+  clrIcon.style.display = 'none';
+  clrIcon.addEventListener('click',function(){
+    console.log('Clear Icon clicked');
+    $("input:text").val("");
+    deselectBtn.disabled = false;
+    $('.filter-checkbox').attr("disabled",false);
+    $('#search-result').fadeOut(250,function(){
+      setTimeout(function(){
+        $('#filter-result').fadeIn(250);
+        $('#search-result').empty();
+      });
+    });
+    clrIcon.style.display = 'none';
+  });
+
+</script>
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'myphotos/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <form method="POST" id="form" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="form-field">
+        <h5><b>Sign In:</b></h5>
+        {{ form.as_p }}
+        <input type="submit" class='btn btn-warning' value="Sign In" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
