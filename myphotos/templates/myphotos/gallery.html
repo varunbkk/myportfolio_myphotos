@@ -4,13 +4,16 @@
 {% block content %}
 
 <div class="row m-2">
-  <!-- Category filter and photo search bar that takes up 3 cols -->
+  <!-- Category filter, photo upload and photo search area that takes up 3 col widths -->
   <div class="col-md-3  my-2">
     <div class="card" style="width: 15rem;">
       <div class="card-header">
         Filter &nbsp;
-        <button id="deselect-button" type="button" class="btn btn-secondary btn-sm" name="button" disabled>Deselect All</button>
+        <button id ="select-all-button" type="button" class="btn btn-secondary btn-sm btn-success" name="button">All</button>
+        <button id="deselect-button" type="button" class="btn btn-secondary btn-sm btn-danger" name="button" disabled>None</button>
       </div>
+
+      <!-- Category filter box -->
       <ul class="list-group list-group-flush">
         {% for category in categories %}
         <li class="list-group-item">
@@ -18,21 +21,24 @@
         <small>{{category.name}}</small>
         </li>
         {% endfor %}
+
+        <!-- Photo upload button visible to admin or authenticated users only -->
         {% if user.is_authenticated %}
         <a href="{% url 'add' %}" class="btn btn-primary btn-sm m-1">Add Photo</a>
         {% else %}
         <a href="{% url 'add' %}" class="btn btn-primary btn-sm m-1"hidden>Add Photo</a>
         {% endif %}
-
       </ul>
     </div>
 
+    <!-- Search bar and clear search bar icon -->
     <div id="search-input" class="form-group my-4" style="width:15rem;">
       <input id="search-box" type="text" class="form-control" placeholder="search by tag keywords"disabled>
       <img id="clear-icon" src="{% static 'images/clr_icon.svg' %}" alt="">
     </div>
   </div>
-  <!-- Photo gallery area that takes up 9 cols -->
+
+  <!-- Original output div - photo gallery area that takes up 9 col widths -->
   <div id="original-output" class="col-md-9">
     <div class="row">
 
@@ -79,13 +85,14 @@
 
     </div>
   </div>
-
+  <!-- Output divs for the ajax (filter and search) callbacks -->
   <div id="filter-result" class="col-md-9">
   </div>
 
   <div id="search-result" class="col-md-9">
   </div>
-  <!-- The modal for the original output, into which we inject the selected image -->
+
+  <!-- The modal for the original output div into which we inject the selected image -->
   <div id="original-Modal" class="modal">
     <span class="close">&times;</span>
     <img id="modal-image" class="modal-content">
@@ -95,7 +102,7 @@
 
   </div>
 
-  <!-- The modal for the Ajax callback output -->
+  <!-- The modal for the Ajax callback output divs -->
   <div id="ajax-Modal" class="modal">
     <span class="ajax-close">&times;</span>
     <img id="ajax-modal-image" class="ajax-modal-content">
@@ -107,25 +114,6 @@
 
 </div>
 
-<script type="text/javascript" src="{% static 'js/deselect.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/photo_search.js' %}"></script>
-<script type="text/javascript">
-  var clrIcon = document.getElementById('clear-icon');
-  // clrIcon.style.display = 'none';
-  clrIcon.addEventListener('click',function(){
-    console.log('Clear Icon clicked');
-    $("input:text").val("");
-    deselectBtn.disabled = false;
-    $('.filter-checkbox').attr("disabled",false);
-    $('#search-result').fadeOut(250,function(){
-      setTimeout(function(){
-        $('#filter-result').fadeIn(250);
-        $('#search-result').empty();
-      });
-    });
-    clrIcon.style.display = 'none';
-  });
 
-</script>
 
 {% endblock content %}
