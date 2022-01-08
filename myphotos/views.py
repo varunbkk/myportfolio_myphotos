@@ -47,7 +47,7 @@ def search_photos(request):
             search_value=request.GET.get('searchValue')
             categories=request.GET.getlist('filterArray[]')
             if len(categories) > 0:
-                result = Photo.objects.filter(Q(description__icontains=search_value) | Q(tags__name__icontains=search_value)).filter(category__name__in=categories).order_by('id').distinct()
+                result = Photo.objects.filter(Q(description__icontains=search_value) | Q(tags__name__icontains=search_value)).filter(category__name__in=categories).order_by('category').distinct()
                 data['filter_search_result'] = render_to_string(template_name='myphotos/search_photos.html',context={'photos':result})
             return JsonResponse(data)
 
