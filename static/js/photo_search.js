@@ -2,9 +2,10 @@ const searchInput = document.querySelector('#search-input');
 
 // Listens for the key presses i.e. text the user is typing
 searchInput.addEventListener('keyup',(e) => {
-  // Extracts the value of the key being pressed
-
+  // Extracts the value of the key being pressed that will be sent to Django via Ajax
   var searchValue = e.target.value;
+
+  // Waits for 250 ms after a keypress is finished to make the ajax call
   var ms = 250;
   var timer;
   clearTimeout(timer);
@@ -22,9 +23,11 @@ function lookup(searchValue)
   {
     console.log(searchValue.length);
     clrIcon.style.display = 'block';
+    selectAllBtn.disabled = true;
     deselectBtn.disabled = true;
     $('.filter-checkbox').attr("disabled",true);
     var filterArray = {}
+
     $('.filter-checkbox').each(function(index,element){
       var filterValue = $(this).val()
       var filterKey = $(this).data('filter');
@@ -72,6 +75,7 @@ function lookup(searchValue)
   else
   {
       clrIcon.style.display = 'none';
+      selectAllBtn.disabled = false;
       deselectBtn.disabled = false;
       $('.filter-checkbox').attr("disabled",false);
       //$('#original-output').hide();

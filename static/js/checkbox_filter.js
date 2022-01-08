@@ -36,7 +36,18 @@ $(document).ready(function(){
             });
           });
       }
-      else
+
+      if (filterArrayLength === 3)
+      {
+        selectAllBtn.disabled = true;
+      }
+
+      if (filterArrayLength < 3)
+      {
+        selectAllBtn.disabled = false;
+      }
+
+      if (filterArrayLength < 1)
       {
         deselectBtn.disabled = true;
         $('#search-box').attr("disabled",true);
