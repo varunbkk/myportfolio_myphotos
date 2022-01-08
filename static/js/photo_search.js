@@ -1,10 +1,21 @@
 const searchInput = document.querySelector('#search-input');
 
 // Listens for the key presses i.e. text the user is typing
-searchInput.addEventListener('keydown',(e) => {
+searchInput.addEventListener('keyup',(e) => {
   // Extracts the value of the key being pressed
 
   var searchValue = e.target.value;
+  var ms = 250;
+  var timer;
+  clearTimeout(timer);
+  timer = setTimeout(function(){
+    lookup(searchValue);
+  },ms);
+
+});
+
+function lookup(searchValue)
+{
   const url = '/search_photos/'
 
   if (searchValue.trim().length > 0)
@@ -43,17 +54,17 @@ searchInput.addEventListener('keydown',(e) => {
       {
           //$('#original-output').hide();
 
-          // $('#filter-result').hide();
-          // $('#search-result').html(data.filter_search_result);
-          // $('#search-result').show();
+          $('#filter-result').hide();
+          $('#search-result').html(data.filter_search_result);
+          $('#search-result').show();
 
-          $('#filter-result').fadeOut(250);
-          $("#search-result").fadeOut(250, function() {
-                setTimeout(function(){
-                   $('#search-result').fadeIn(250);
-                   $('#search-result').html(data.filter_search_result);
-              });
-            });
+          // $('#filter-result').fadeOut(250);
+          // $("#search-result").fadeOut(250, function() {
+          //       setTimeout(function(){
+          //          $('#search-result').fadeIn(250);
+          //          $('#search-result').html(data.filter_search_result);
+          //     });
+          //   });
 
       }
     });
@@ -71,4 +82,4 @@ searchInput.addEventListener('keydown',(e) => {
         });
       });
   }
-});
+}
