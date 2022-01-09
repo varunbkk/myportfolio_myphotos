@@ -211,3 +211,9 @@ body
   text-decoration: none;
   cursor: pointer;
 }
+
+input::-webkit-input-placeholder {
+    font-size: 14px;
+    line-height: 4;
+    overflow: visible;
+}
