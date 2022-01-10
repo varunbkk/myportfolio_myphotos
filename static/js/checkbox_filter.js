@@ -16,7 +16,6 @@ $(document).ready(function(){
     const url = '/filter_photos/'
     $.ajax({
       url:url,
-      type:'GET',
       headers:{
         'X-Requested-With':'XMLHttpRequest'
       },

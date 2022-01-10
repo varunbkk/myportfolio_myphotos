@@ -41,7 +41,6 @@ function lookup(searchValue)
     console.log('SearchValue:',searchValue);
     $.ajax({
       url:url,
-      type:'GET',
       headers:{
         'X-Requested-With':'XMLHttpRequest'
       },

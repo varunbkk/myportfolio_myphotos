@@ -18,7 +18,6 @@ selectAllBtn.addEventListener('click',function(){
 
   $.ajax({
     url:url,
-    type:'GET',
     headers:{
       'X-Requested-With':'XMLHttpRequest'
     },
