@@ -15,13 +15,7 @@ class Photo(models.Model):
     description = models.TextField(max_length=500,null=False)
     category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True)
     image = models.ImageField(null=False,blank=False)
-    slug = models.SlugField(null=True)
     tags = TaggableManager()
 
     def __str__(self):
         return self.description
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.description)
-        super(Photo, self).save(*args, **kwargs)

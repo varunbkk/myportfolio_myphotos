@@ -46,7 +46,7 @@
       <!-- Each thumbnail image (within the gallery) takes up 4 cols for a total of 3 thumbnails per each row -->
       <div class="col-md-4">
         <div class="card m-2">
-          <img alt="{{photo.description}}" data-slug="{{photo.slug}}" class="image-thumbnail" src={{photo.image.url}}>
+          <img alt="{{photo.description}}" class="image-thumbnail" src={{photo.image.url}}>
           <div class="card-body">
             <div id="card-text" class="col-sm-12">
               {% for tag in photo.tags.all %}
